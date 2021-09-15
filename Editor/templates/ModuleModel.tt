@@ -1,0 +1,12 @@
+using com.rpdev.foundation.module.core.model;
+
+namespace com.rpdev.foundation.module.#module_namespace#.model {
+
+	public interface I#ModuleName#Model : IModuleModel {
+		
+	}
+	
+	public abstract class #ModuleName#Model : ModuleModel, I#ModuleName#Model {
+		
+	}
+}

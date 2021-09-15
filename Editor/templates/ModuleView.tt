@@ -1,0 +1,12 @@
+using com.rpdev.foundation.module.core.view;
+using com.rpdev.foundation.module.#module_namespace#.model;
+
+namespace com.rpdev.foundation.module.#module_namespace#.view {
+
+	public interface I#ModuleName#View : IModuleView {
+	}
+	
+	public class #ModuleName#View : ModuleView, I#ModuleName#View {
+		protected I#ModuleName#Model Model => Model<I#ModuleName#Model>();
+	}
+}

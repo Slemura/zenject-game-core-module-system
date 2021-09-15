@@ -1,0 +1,20 @@
+using com.rpdev.foundation.module.core.controller;
+using com.rpdev.foundation.module.#module_namespace#.model;
+using com.rpdev.foundation.module.#module_namespace#.view;
+
+namespace com.rpdev.foundation.module.#module_namespace#.controller {
+	
+	public interface I#ModuleName#Facade : IModuleFacade {
+		
+	}
+
+	public interface I#ModuleName#Controller : IModuleController {
+		
+	}
+	
+	public class #ModuleName#Controller : ModuleController, I#ModuleName#Controller , I#ModuleName#Facade {
+
+        protected I#ModuleName#Model Model => Model<I#ModuleName#Model>();
+		protected I#ModuleName#View  View  => View<I#ModuleName#View>();
+	}
+}

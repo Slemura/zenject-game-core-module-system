@@ -1,1 +1,1 @@
-# zenject-game-core-module-system
+Hitapps analytics module documentation here.

@@ -1,0 +1,25 @@
+{
+  "name": "com.rpdev.modules.zenject-game-core-module-system",
+  "displayName": "Zenject game core module system",
+  "version": "0.0.1",
+  "unity": "2021.1",
+  "unityRelease": "11f1",
+  "description": "Zenject game core module system and extensions",
+  "dependencies": {
+  },
+  "keywords": [
+    "modules",
+    "buildtools"
+  ],
+  "type": "module",
+  "author": {
+    "name": "Roman Poshtabayev",
+    "email": "rpugamedev@gmail.com",
+    "url": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Slemura/zenject-game-core-module-system",
+    "revision": ""
+  }
+}
