@@ -43,7 +43,7 @@ namespace com.rpdev.foundation.module.core.view {
 		}
 		
 		
-		public void Dispose() { }
+		public virtual void Dispose() { }
 
 	}
 }
