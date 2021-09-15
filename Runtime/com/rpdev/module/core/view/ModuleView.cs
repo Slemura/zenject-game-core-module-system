@@ -34,11 +34,11 @@ namespace com.rpdev.foundation.module.core.view {
 			transform.localRotation = rotation;
 		}
 		
-		public void Activate() {
+		public virtual void Activate() {
 			
 		}
 
-		public void Deactivate() {
+		public virtual void Deactivate() {
 			
 		}
 		
