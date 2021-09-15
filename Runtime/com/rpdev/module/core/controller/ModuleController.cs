@@ -1,6 +1,7 @@
 using System;
 using com.rpdev.foundation.module.core.model;
 using com.rpdev.foundation.module.core.view;
+using com.rpdev.module.common;
 using Zenject;
 
 namespace com.rpdev.foundation.module.core.controller {
