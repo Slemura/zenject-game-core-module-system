@@ -1,1 +1,1 @@
-Hitapps analytics module documentation here.
+Module documentation here.

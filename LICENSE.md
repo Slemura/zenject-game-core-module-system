@@ -1,1 +1,1 @@
-Hitapps analytics module licence information here.
+Module licence information here.
