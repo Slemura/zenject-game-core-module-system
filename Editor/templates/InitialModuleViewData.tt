@@ -1,7 +1,9 @@
 using UnityEngine;
+using System;
 
 namespace com.rpdev.foundation.module.editor.templates {
-    
+
+    [Serializable]    
     public class InitialModuleViewData {
         public Transform  parent_container;
         public Vector3    position;
