@@ -1,9 +1,3 @@
-using com.rpdev.foundation.module.core;
-using com.rpdev.foundation.module.core.view;
-using com.rpdev.foundation.module.#module_namespace#.controller;
-using com.rpdev.foundation.module.#module_namespace#.model;
-using com.rpdev.foundation.module.#module_namespace#.view;
-
 namespace com.rpdev.foundation.module.#module_namespace# {
 
 	public class #ModuleName#ModuleInstaller : ModuleInstaller<#ModuleName#Controller, #ModuleName#Model, #ModuleName#View> {

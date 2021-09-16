@@ -7,11 +7,15 @@ namespace com.rpdev.foundation.module.editor {
 
 	public class ModuleGenerator {
 
-		private const    string         CONTROLLER_TEMPLATE = "templates\\ModuleController.tt";
-		private const    string         MODEL_TEMPLATE      = "templates\\ModuleModel.tt";
-		private const    string         VIEW_TEMPLATE       = "templates\\ModuleView.tt";
-		private const    string         INSTALLER_TEMPLATE  = "templates\\ModuleInstaller.tt";
-		private const    string         ADDITIONAL_DATA_TEMPLATE  = "templates\\ModuleAdditionalModelData.tt";
+		private const string CONTROLLER_TEMPLATE               = "templates\\ModuleController.tt";
+		private const string CONTROLLER_TEMPLATE_ALONE         = "templates\\ModuleControllerAlone.tt";
+		private const string CONTROLLER_TEMPLATE_WITHOUT_VIEW  = "templates\\ModuleControllerWithoutView.tt";
+		private const string CONTROLLER_TEMPLATE_WITHOUT_MODEL = "templates\\ModuleControllerWithoutModel.tt";
+		private const string MODEL_TEMPLATE                    = "templates\\ModuleModel.tt";
+		private const string VIEW_TEMPLATE                     = "templates\\ModuleView.tt";
+		private const string VIEW_TEMPLATE_WITHOUT_MODEL       = "templates\\ModuleViewWithoutModel.tt";
+		private const string INSTALLER_TEMPLATE                = "templates\\ModuleInstaller.tt";
+		private const string ADDITIONAL_DATA_TEMPLATE          = "templates\\ModuleAdditionalModelData.tt";
 		
 		private readonly ModuleSettings _settings;
 		private          string         _module_namespace;
@@ -37,8 +41,16 @@ namespace com.rpdev.foundation.module.editor {
 			DirectoryInfo module_directory = Directory.CreateDirectory(Path.Combine(_settings.module_path, _module_namespace));
 
 			DirectoryInfo controller_directory = Directory.CreateDirectory(Path.Combine(module_directory.FullName, "controller"));
-			
-			GenerateFile(Path.Combine(template_path, CONTROLLER_TEMPLATE), Path.Combine(controller_directory.FullName, _settings.module_name + "Controller.cs"));
+
+			if (_settings.is_have_model && _settings.is_havel_view) {
+				GenerateFile(Path.Combine(template_path, CONTROLLER_TEMPLATE), Path.Combine(controller_directory.FullName, _settings.module_name + "Controller.cs"));	
+			} else if (_settings.is_havel_view) {
+				GenerateFile(Path.Combine(template_path, CONTROLLER_TEMPLATE_WITHOUT_MODEL), Path.Combine(controller_directory.FullName, _settings.module_name + "Controller.cs"));
+			} else if (_settings.is_have_model) {
+				GenerateFile(Path.Combine(template_path, CONTROLLER_TEMPLATE_WITHOUT_VIEW), Path.Combine(controller_directory.FullName, _settings.module_name + "Controller.cs"));
+			} else {
+				GenerateFile(Path.Combine(template_path, CONTROLLER_TEMPLATE_ALONE), Path.Combine(controller_directory.FullName, _settings.module_name + "Controller.cs"));
+			}
 			
 			if (_settings.is_have_model) {
 				
@@ -53,7 +65,12 @@ namespace com.rpdev.foundation.module.editor {
 
 			if (_settings.is_havel_view) {
 				DirectoryInfo view_directory = Directory.CreateDirectory(Path.Combine(module_directory.FullName, "view"));
-				GenerateFile(Path.Combine(template_path, VIEW_TEMPLATE), Path.Combine(view_directory.FullName, _settings.module_name + "View.cs"));
+				
+				if (_settings.is_have_model) {
+					GenerateFile(Path.Combine(template_path, VIEW_TEMPLATE), Path.Combine(view_directory.FullName, _settings.module_name + "View.cs"));	
+				} else {
+					GenerateFile(Path.Combine(template_path, VIEW_TEMPLATE_WITHOUT_MODEL), Path.Combine(view_directory.FullName, _settings.module_name + "View.cs"));
+				}
 			}
 
 			if (_settings.is_custom_installer) {
@@ -68,7 +85,7 @@ namespace com.rpdev.foundation.module.editor {
 			string content = stream_reader.ReadToEnd();
 			stream_reader.Close();
 
-			string modified_content = content.Replace("#ModuleName#", _settings.module_name).Replace("#module_namespace#", _module_namespace);
+			string modified_content = content.Replace("#ModuleName#", _settings.module_name).Replace("#module_namespace#", _module_namespace).Replace("#DerivedModule#", _settings.derived_module);
 			
 			Debug.Log($"Create module part {new_file_path}");
 			StreamWriter stream_writer = new StreamWriter(new_file_path);
@@ -84,6 +101,8 @@ namespace com.rpdev.foundation.module.editor {
 			
 			public string module_name;
 			public string module_path;
+			public string derived_module;
+			
 			public bool   is_have_model;
 			public bool   is_havel_view;
 			public bool   is_custom_installer;

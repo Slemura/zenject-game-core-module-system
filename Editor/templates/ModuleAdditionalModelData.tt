@@ -1,5 +1,4 @@
-using com.rpdev.foundation.module.core.model;
-	
+
 namespace com.rpdev.foundation.module.#module_namespace#.model {
 
 	public class #ModuleName#AdditionalModelData : ModuleAdditionalModelData {

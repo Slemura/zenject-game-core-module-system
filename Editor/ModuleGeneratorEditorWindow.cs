@@ -1,3 +1,6 @@
+using System;
+using System.Linq;
+using com.rpdev.foundation.module.core.controller;
 using UnityEditor;
 using UnityEngine;
 	
@@ -9,6 +12,7 @@ namespace com.rpdev.foundation.module.editor {
 		private static void ShowWindow() {
 			ModuleGeneratorEditorWindow window = EditorWindow.GetWindow<ModuleGeneratorEditorWindow>("Module generator", true);
 			window.Show();
+			window.OnValidate();
 			window.maxSize = new Vector2(800, 600);
 		}
 
@@ -19,10 +23,24 @@ namespace com.rpdev.foundation.module.editor {
 		private bool _is_model_additional_data_exist;
 		private bool _view_exist;
 		private bool _custom_installer;
+
+		private string[] _modules_list_for_derived;
+		private int      _derived_module_index = 0;
 		
 		
+		
+		private void OnValidate() {
+			_modules_list_for_derived = AppDomain.CurrentDomain.GetAssemblies().SelectMany(assembly => assembly.GetTypes())
+												 .Where(type => type == typeof(ModuleController) || type.IsSubclassOf(typeof(ModuleController)))
+												 .Select(type => {
+													 string name             = type.Name;
+													 int    controller_start = name.IndexOf("Controller");
+													 string ready_name       = name.Substring(0, controller_start);
+													 return ready_name;
+												 }).ToArray();
+		}
+
 		private void OnGUI() {
-			
 			GUIStyle error_style = new GUIStyle {
 				normal = new GUIStyleState {
 					textColor = Color.red
@@ -31,10 +49,7 @@ namespace com.rpdev.foundation.module.editor {
 			};
 			
 			GUIStyle normal_style = new GUIStyle {
-				normal = new GUIStyleState {
-					textColor = Color.white
-				},
-				margin = new RectOffset(20, 0,30,0)
+				margin = new RectOffset(5, -250,0,0)
 			};
 			
 			GUILayout.Label("Module generator", EditorStyles.boldLabel);
@@ -50,6 +65,13 @@ namespace com.rpdev.foundation.module.editor {
 			GUILayout.Space(5);
 			
 			_module_name = EditorGUILayout.TextField("Module name", _module_name);
+			
+			GUILayout.Space(5);
+			
+			EditorGUILayout.BeginHorizontal();
+			GUILayout.Label("Base class");
+			_derived_module_index = EditorGUILayout.Popup(_derived_module_index, _modules_list_for_derived);
+			EditorGUILayout.EndHorizontal();
 			
 			if (string.IsNullOrEmpty(_module_name)) {
 				GUILayout.Label("Module name must be filled", error_style);
@@ -82,10 +104,12 @@ namespace com.rpdev.foundation.module.editor {
 					is_custom_installer = _custom_installer,
 					is_have_model       = _model_exist,
 					is_havel_view       = _view_exist,
-					is_additional_custom_data = _is_model_additional_data_exist
+					is_additional_custom_data = _is_model_additional_data_exist,
+					derived_module = _modules_list_for_derived[_derived_module_index]
 				});
 				
 				generator.Generate();
+				OnValidate();
 			}
 			EditorGUI.EndDisabledGroup();
 			

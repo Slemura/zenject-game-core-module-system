@@ -10,8 +10,6 @@ namespace com.rpdev.foundation.module.#module_namespace#.controller {
 	}
 	
 	public class #ModuleName#Controller : #DerivedModule#Controller, I#ModuleName#Controller , I#ModuleName#Facade {
-
-        protected I#ModuleName#Model Model => Model<I#ModuleName#Model>();
-		protected I#ModuleName#View  View  => View<I#ModuleName#View>();
+        protected I#ModuleName#Model Model => Model<I#ModuleName#Model>();		
 	}
 }
