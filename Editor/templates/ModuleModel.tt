@@ -4,7 +4,7 @@ namespace com.rpdev.foundation.module.#module_namespace#.model {
 		
 	}
 	
-	public abstract class #ModuleName#Model : #DerivedModule#Model, I#ModuleName#Model {
+	public class #ModuleName#Model : #DerivedModule#Model, I#ModuleName#Model {
 		
 	}
 }
