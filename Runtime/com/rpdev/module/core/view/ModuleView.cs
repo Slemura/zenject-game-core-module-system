@@ -12,7 +12,7 @@ namespace com.rpdev.foundation.module.core.view {
 		public void SetRotation(Quaternion rotation);
 	}
 	
-	public class ModuleView : MonoBehaviour, IModuleView {
+	public class ModuleView : MonoBehaviour, IModuleView, IInitializable {
 
 		private   IModuleModel _model;
 		private   bool         _has_model;
@@ -24,6 +24,11 @@ namespace com.rpdev.foundation.module.core.view {
 		public void InjectDependencies([InjectOptional] IModuleModel module_model) {
 			_model     = module_model;
 			_has_model = _model != null;
+		}
+		
+		[Inject]
+		public virtual void Initialize() {
+			
 		}
 
 		public void SetPosition(Vector3 position) {
