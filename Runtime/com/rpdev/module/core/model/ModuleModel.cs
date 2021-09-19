@@ -8,14 +8,14 @@ namespace com.rpdev.foundation.module.core.model {
 	
 	public abstract class ModuleModel : IModuleModel, IInitializable {
 		
-		private ModuleAdditionalModelData _additional_data;
+		private ModuleAdditionalData _additional_data;
 
-		protected T AdditionalData<T>() where T : ModuleAdditionalModelData {
+		protected T AdditionalData<T>() where T : ModuleAdditionalData {
 			return _additional_data as T;
 		}
 
 		[Inject]
-		private void InjectDependencies([InjectOptional] ModuleAdditionalModelData additional_data) {
+		private void InjectDependencies([InjectOptional] ModuleAdditionalData additional_data) {
 			_additional_data = additional_data;
 		}
 

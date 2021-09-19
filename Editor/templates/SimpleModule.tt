@@ -1,0 +1,22 @@
+using UnityEngine;
+
+namespace com.rpdev.foundation.module.#module_namespace# {   
+
+    public inteface I#ModuleName#Facade : IModuleFacade {
+    }
+
+    public class #ModuleName#View : SimpleModule, I#ModuleName#Facade {
+        
+        public virtual void Activate() {
+            gameObject.SetActive(true);
+        }
+
+        public virtual void Deactivate() {
+            gameObject.SetActive(false);
+        }
+
+        public virtual void Dispose() {
+            
+        }
+    }
+}

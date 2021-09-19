@@ -4,6 +4,6 @@ namespace com.rpdev.foundation.module.#module_namespace#.view {
 	}
 	
 	public class #ModuleName#View : #DerivedModule#View, I#ModuleName#View {
-		protected I#ModuleName#Model Model => Model<I#ModuleName#Model>();
+        #Properties#		
 	}
 }

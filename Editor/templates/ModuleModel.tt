@@ -1,10 +1,12 @@
 namespace com.rpdev.foundation.module.#module_namespace#.model {
 
 	public interface I#ModuleName#Model : I#DerivedModule#Model {
-		
+		#InterfaceProps#
 	}
 	
 	public class #ModuleName#Model : #DerivedModule#Model, I#ModuleName#Model {
-		
+		#Properties#
+
+        public override void Initialize() { }
 	}
 }

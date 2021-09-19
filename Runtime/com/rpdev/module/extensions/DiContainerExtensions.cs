@@ -46,7 +46,7 @@ namespace com.rpdev.module.extensions {
 			container.InstantiateExplicit<TDerivedInstaller>(InjectUtil.CreateArgListExplicit(param1, param2)).InstallBindings();
 		}
 
-		public static void BindComplexModuleFromDerivedInstallerWithAdditionalData<TFacade, TModuleController, TModuleInstaller>(this DiContainer container, ModuleView view_prefab, InitialModuleViewData view_initial_data, ModuleAdditionalModelData module_additional_model_data)
+		public static void BindComplexModuleFromDerivedInstallerWithAdditionalData<TFacade, TModuleController, TModuleInstaller>(this DiContainer container, ModuleView view_prefab, InitialModuleViewData view_initial_data, ModuleAdditionalData module_additional_data)
 			where TFacade : IModuleFacade 
 			where TModuleController : ModuleController, TFacade
 			where TModuleInstaller : InstallerBase {
@@ -54,7 +54,7 @@ namespace com.rpdev.module.extensions {
 			container.Bind<TFacade>()
 					 .To<TModuleController>()
 					 .FromSubContainerResolve()
-					 .ByMethod(sub_container => sub_container.Install<ModuleView, InitialModuleViewData, ModuleAdditionalModelData, TModuleInstaller>(view_prefab, view_initial_data, module_additional_model_data))
+					 .ByMethod(sub_container => sub_container.Install<ModuleView, InitialModuleViewData, ModuleAdditionalData, TModuleInstaller>(view_prefab, view_initial_data, module_additional_data))
 					 .WithKernel()
 					 .AsSingle()
 					 .NonLazy();
@@ -74,7 +74,7 @@ namespace com.rpdev.module.extensions {
 					 .NonLazy();
 		}
 		
-		public static void BindComplexModuleWithAdditionalData<TFacade, TModuleController, TModuleModel, TModuleView>(this DiContainer container, TModuleView view_prefab, InitialModuleViewData view_initial_data, ModuleAdditionalModelData module_additional_data) where TFacade : IModuleFacade 
+		public static void BindComplexModuleWithAdditionalData<TFacade, TModuleController, TModuleModel, TModuleView>(this DiContainer container, TModuleView view_prefab, InitialModuleViewData view_initial_data, ModuleAdditionalData module_additional_data) where TFacade : IModuleFacade 
 			where TModuleController : ModuleController, TFacade 
 			where TModuleModel : IModuleModel 
 			where TModuleView : ModuleView {

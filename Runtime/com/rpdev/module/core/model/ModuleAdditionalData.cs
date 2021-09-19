@@ -4,7 +4,7 @@ using UnityEngine;
 	
 namespace com.rpdev.foundation.module.core.model {
 
-	public class ModuleAdditionalModelData {
+	public class ModuleAdditionalData {
 	    
 	}
 	

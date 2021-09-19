@@ -65,7 +65,7 @@ namespace com.rpdev.foundation.module.editor {
 			GUILayout.Space(5);
 			
 			_module_name = EditorGUILayout.TextField("Module name", _module_name);
-			
+
 			GUILayout.Space(5);
 			
 			EditorGUILayout.BeginHorizontal();

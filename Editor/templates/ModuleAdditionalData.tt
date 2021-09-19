@@ -1,7 +1,7 @@
 
 namespace com.rpdev.foundation.module.#module_namespace#.model {
 
-	public class #ModuleName#AdditionalModelData : ModuleAdditionalModelData {
+	public class #ModuleName#AdditionalData : ModuleAdditionalData {
 	    
 	}
 	

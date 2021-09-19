@@ -22,20 +22,20 @@ namespace com.rpdev.foundation.module.core {
 		}
 	}
 	
-	public class NoneViewWithAdditionalDatModuleInstaller<TController, TModel> : Installer<ModuleAdditionalModelData, NoneViewWithAdditionalDatModuleInstaller<TController, TModel>> 
+	public class NoneViewWithAdditionalDatModuleInstaller<TController, TModel> : Installer<ModuleAdditionalData, NoneViewWithAdditionalDatModuleInstaller<TController, TModel>> 
 																						   where TController : IModuleController 
 																						   where TModel : IModuleModel {
-		private readonly ModuleAdditionalModelData _module_additional_model_data;
+		private readonly ModuleAdditionalData _module_additional_data;
 
-		public NoneViewWithAdditionalDatModuleInstaller(ModuleAdditionalModelData module_additional_model_data) {
-			_module_additional_model_data = module_additional_model_data;
+		public NoneViewWithAdditionalDatModuleInstaller(ModuleAdditionalData module_additional_data) {
+			_module_additional_data = module_additional_data;
 		}
 		
 		public override void InstallBindings() {
 			InstallSignals();
 			
 			Container.BindInterfacesAndSelfTo<TController>().AsSingle().NonLazy();
-			Container.BindInterfacesAndSelfTo<ModuleAdditionalModelData>().FromInstance(_module_additional_model_data).WhenInjectedInto<TModel>();
+			Container.BindInterfacesAndSelfTo<ModuleAdditionalData>().FromInstance(_module_additional_data).WhenInjectedInto<TModel>();
 			Container.BindInterfacesTo<TModel>().AsSingle();
 		}
 		
@@ -81,7 +81,7 @@ namespace com.rpdev.foundation.module.core {
 	
 	public class WithAdditionalDataModuleInstaller<TController, TModel, TView> : Installer<TView, 
 																					   InitialModuleViewData, 
-																					   ModuleAdditionalModelData, 
+																					   ModuleAdditionalData, 
 																					   WithAdditionalDataModuleInstaller<TController, TModel, TView>>
 													
 																					 where TController : IModuleController 
@@ -89,12 +89,12 @@ namespace com.rpdev.foundation.module.core {
 																					 where TView : ModuleView {
 		private readonly TView                  _view;
 		private readonly InitialModuleViewData _view_initial_module_view_data;
-		private readonly ModuleAdditionalModelData        _additional_model_data;
+		private readonly ModuleAdditionalData        _additional_data;
 
-		public WithAdditionalDataModuleInstaller(TView view, InitialModuleViewData view_initial_module_view_data, ModuleAdditionalModelData additional_model_data) {
+		public WithAdditionalDataModuleInstaller(TView view, InitialModuleViewData view_initial_module_view_data, ModuleAdditionalData additional_data) {
 			_view              = view;
 			_view_initial_module_view_data = view_initial_module_view_data;
-			_additional_model_data   = additional_model_data;
+			_additional_data   = additional_data;
 		}
 		
 		public override void InstallBindings() {
@@ -102,7 +102,7 @@ namespace com.rpdev.foundation.module.core {
 			InstallSignals();
 			
 			Container.BindInterfacesAndSelfTo<TController>().AsSingle().NonLazy();
-			Container.BindInterfacesAndSelfTo<ModuleAdditionalModelData>().FromInstance(_additional_model_data).WhenInjectedInto<TModel>();
+			Container.BindInterfacesAndSelfTo<ModuleAdditionalData>().FromInstance(_additional_data).WhenInjectedInto<TModel>();
 			Container.BindInterfacesTo<TModel>().AsSingle();
 			
 			Container.BindInterfacesTo<TView>()
