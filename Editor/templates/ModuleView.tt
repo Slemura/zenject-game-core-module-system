@@ -3,7 +3,6 @@ namespace com.rpdev.foundation.module.#module_namespace#.view {
 	public interface I#ModuleName#View : I#DerivedModule#View {
 	}
 	
-	public class #ModuleName#View : #DerivedModule#View, I#ModuleName#View {
-        #Properties#		
+	public class #ModuleName#View : #DerivedModule#View, I#ModuleName#View {        		
 	}
 }

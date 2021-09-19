@@ -64,8 +64,7 @@ namespace com.rpdev.foundation.module.editor {
 				DirectoryInfo view_directory = Directory.CreateDirectory(Path.Combine(module_directory.FullName, "view"));
 
 				GenerateFile(Path.Combine(template_path, ModuleGeneratorConstants.VIEW_TEMPLATE),
-							 Path.Combine(view_directory.FullName, _settings.module_name + "View.cs"),
-							 _settings.is_have_model ? ModuleGeneratorConstants.MODEL_PROPERTY : "");
+							 Path.Combine(view_directory.FullName, _settings.module_name + "View.cs"));
 			}
 
 			if (_settings.is_custom_installer) {
