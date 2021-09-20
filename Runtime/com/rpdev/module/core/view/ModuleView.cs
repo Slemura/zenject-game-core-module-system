@@ -58,5 +58,6 @@ namespace com.rpdev.foundation.module.core.view {
 		
 		public virtual void Dispose() { }
 
+		public class Factory : PlaceholderFactory<DiContainer, ModuleView, InitialModuleViewData, IModuleView> {}
 	}
 }

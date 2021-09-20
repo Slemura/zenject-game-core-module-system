@@ -1,7 +1,6 @@
 using com.rpdev.foundation.module.core.controller;
 using com.rpdev.foundation.module.core.model;
 using com.rpdev.foundation.module.core.view;
-using UnityEngine;
 using Zenject;
 
 namespace com.rpdev.foundation.module.core {
@@ -61,24 +60,12 @@ namespace com.rpdev.foundation.module.core {
 			InstallSignals();
 			
 			Container.BindInterfacesAndSelfTo<TController>().AsSingle().NonLazy();
-			Container.BindInterfacesTo<TView>().FromMethod(CreateViewInstance).AsSingle();
+			Container.BindInterfacesTo<TView>().FromInstance(_view);
 		}
-		
-		private TView CreateViewInstance(InjectContext inject) {
-			
-			TView     view           = Container.InstantiatePrefabForComponent<TView>(_view);
-			Transform view_transform = view.transform;
-			
-			view_transform.SetParent(_view_initial_module_view_data.parent_container);
-			view_transform.localPosition = _view_initial_module_view_data.position;
-			view_transform.localRotation = _view_initial_module_view_data.rotation;
-			
-			return view;
-		}
-		
+
 		protected virtual void InstallSignals() { }
 	}
-	
+
 	public class WithAdditionalDataModuleInstaller<TController, TModel, TView> : Installer<TView, 
 																					   InitialModuleViewData, 
 																					   ModuleAdditionalData, 
@@ -105,28 +92,13 @@ namespace com.rpdev.foundation.module.core {
 			Container.BindInterfacesAndSelfTo<ModuleAdditionalData>().FromInstance(_additional_data).WhenInjectedInto<TModel>();
 			Container.BindInterfacesTo<TModel>().AsSingle();
 			
-			Container.BindInterfacesTo<TView>()
-					 .FromMethod(CreateViewInstance)
-					 .AsSingle();
+			Container.BindInterfacesTo<TView>().FromInstance(_view);
 		}
 
 		protected virtual void InstallSignals() {
 			
 		}
-
-		private TView CreateViewInstance(InjectContext inject) {
-			
-			TView     view           = Container.InstantiatePrefabForComponent<TView>(_view);
-			Transform view_transform = view.transform;
-			
-			view_transform.SetParent(_view_initial_module_view_data.parent_container);
-			view_transform.localPosition = _view_initial_module_view_data.position;
-			view_transform.localRotation = _view_initial_module_view_data.rotation;
-			
-			return view;
-		}
 	}
-	
 	
 	public class ModuleInstaller<TController, TModel, TView> : Installer<TView, InitialModuleViewData, ModuleInstaller<TController, TModel, TView>>
 	
@@ -149,24 +121,7 @@ namespace com.rpdev.foundation.module.core {
 			
 			Container.BindInterfacesAndSelfTo<TController>().AsSingle().NonLazy();
 			Container.BindInterfacesTo<TModel>().AsSingle();
-			
-			Container.BindInterfacesTo<TView>()
-					 .FromMethod(CreateViewInstance)
-					 .AsSingle();
-
-			
-		}
-		
-		private TView CreateViewInstance(InjectContext inject) {
-			
-			TView     view           = Container.InstantiatePrefabForComponent<TView>(_view);
-			Transform view_transform = view.transform;
-			
-			view_transform.SetParent(_view_initial_module_view_data.parent_container);
-			view_transform.localPosition = _view_initial_module_view_data.position;
-			view_transform.localRotation = _view_initial_module_view_data.rotation;
-			
-			return view;
+			Container.BindInterfacesTo<TView>().FromInstance(_view);
 		}
 		
 		protected virtual void InstallSignals() { }

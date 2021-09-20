@@ -4,6 +4,7 @@ using com.rpdev.foundation.module.core.controller;
 using com.rpdev.foundation.module.core.model;
 using com.rpdev.foundation.module.core.view;
 using com.rpdev.module.common.commands;
+using UnityEngine;
 using Zenject;
 
 namespace com.rpdev.module.extensions {
@@ -46,7 +47,7 @@ namespace com.rpdev.module.extensions {
 			container.InstantiateExplicit<TDerivedInstaller>(InjectUtil.CreateArgListExplicit(param1, param2)).InstallBindings();
 		}
 
-		public static void BindComplexModuleFromDerivedInstallerWithAdditionalData<TFacade, TModuleController, TModuleInstaller>(this DiContainer container, ModuleView view_prefab, InitialModuleViewData view_initial_data, ModuleAdditionalData module_additional_data)
+		public static void BindComplexModuleFromDerivedInstallerWithAdditionalData<TFacade, TModuleController, TModuleInstaller>(this DiContainer container, ModuleView view_prefab, InitialModuleViewData view_initial_data, ModuleAdditionalData module_additional_data, bool exist_view = false)
 			where TFacade : IModuleFacade 
 			where TModuleController : ModuleController, TFacade
 			where TModuleInstaller : InstallerBase {
@@ -54,13 +55,16 @@ namespace com.rpdev.module.extensions {
 			container.Bind<TFacade>()
 					 .To<TModuleController>()
 					 .FromSubContainerResolve()
-					 .ByMethod(sub_container => sub_container.Install<ModuleView, InitialModuleViewData, ModuleAdditionalData, TModuleInstaller>(view_prefab, view_initial_data, module_additional_data))
+					 .ByMethod(sub_container => {
+						 ModuleView view_instance = exist_view ? view_prefab : ViewCustomFactory<ModuleView>.CreateViewFromPrefab(sub_container, view_prefab as ModuleView, view_initial_data);
+						 sub_container.Install<ModuleView, InitialModuleViewData, ModuleAdditionalData, TModuleInstaller>(view_instance, view_initial_data, module_additional_data);
+					 })
 					 .WithKernel()
 					 .AsSingle()
 					 .NonLazy();
 		}
 		
-		public static void BindComplexModuleFromDerivedInstaller<TFacade, TModuleController, TModuleInstaller>(this DiContainer container, ModuleView view_prefab, InitialModuleViewData view_initial_data)
+		public static void BindComplexModuleFromDerivedInstaller<TFacade, TModuleController, TModuleInstaller>(this DiContainer container, ModuleView view_prefab, InitialModuleViewData view_initial_data, bool exist_view = false)
 			where TFacade : IModuleFacade 
 			where TModuleController : IModuleController, TFacade
 			where TModuleInstaller : InstallerBase {
@@ -68,46 +72,67 @@ namespace com.rpdev.module.extensions {
 			container.Bind<TFacade>()
 					 .To<TModuleController>()
 					 .FromSubContainerResolve()
-					 .ByMethod(sub_container => sub_container.Install<ModuleView, InitialModuleViewData, TModuleInstaller>(view_prefab, view_initial_data))
+					 .ByMethod(sub_container => {
+						 ModuleView view_instance = exist_view ? view_prefab : ViewCustomFactory<ModuleView>.CreateViewFromPrefab(sub_container, view_prefab as ModuleView, view_initial_data);
+						 sub_container.Install<ModuleView, InitialModuleViewData, TModuleInstaller>(view_instance, view_initial_data);
+					 })
 					 .WithKernel()
 					 .AsSingle()
 					 .NonLazy();
 		}
 		
-		public static void BindComplexModuleWithAdditionalData<TFacade, TModuleController, TModuleModel, TModuleView>(this DiContainer container, TModuleView view_prefab, InitialModuleViewData view_initial_data, ModuleAdditionalData module_additional_data) where TFacade : IModuleFacade 
+		public static void BindComplexModuleWithAdditionalData<TFacade, TModuleController, TModuleModel>(this DiContainer container, ModuleView view_prefab, InitialModuleViewData view_initial_data, ModuleAdditionalData module_additional_data, bool exist_view = false) 
+			where TFacade : IModuleFacade 
 			where TModuleController : ModuleController, TFacade 
-			where TModuleModel : IModuleModel 
-			where TModuleView : ModuleView {
+			where TModuleModel : IModuleModel {
 			
 			container.Bind<TFacade>()
 					 .To<TModuleController>()
 					 .FromSubContainerResolve()
-					 .ByMethod(sub_container => WithAdditionalDataModuleInstaller<TModuleController, TModuleModel, TModuleView>.Install(sub_container, view_prefab, view_initial_data, module_additional_data))
+					 .ByMethod(sub_container => {
+						 ModuleView view_instance = exist_view ? view_prefab : ViewCustomFactory<ModuleView>.CreateViewFromPrefab(sub_container, view_prefab as ModuleView, view_initial_data);
+						 WithAdditionalDataModuleInstaller<TModuleController, TModuleModel, ModuleView>.Install(sub_container, view_instance, view_initial_data, module_additional_data);
+					 })
 					 .WithKernel()
 					 .AsSingle()
 					 .NonLazy();
 		}
 		
-		public static void BindNoneModelModule<TFacade, TModuleController>(this DiContainer container, ModuleView view_prefab, InitialModuleViewData view_initial_data) where TFacade : IModuleFacade 
+		public static void BindNoneModelModule<TFacade, TModuleController>(this DiContainer container, ModuleView view_prefab, InitialModuleViewData view_initial_data, bool exist_view = false) where TFacade : IModuleFacade 
 			where TModuleController : ModuleController, TFacade {
 			
 			container.Bind<TFacade>()
 					 .To<TModuleController>()
 					 .FromSubContainerResolve()
-					 .ByMethod(sub_container => NoneModelModuleInstaller<TModuleController, ModuleView>.Install(sub_container, view_prefab, view_initial_data))
+					 .ByMethod(sub_container => {
+						 ModuleView view_instance = exist_view ? view_prefab : ViewCustomFactory<ModuleView>.CreateViewFromPrefab(sub_container, view_prefab as ModuleView, view_initial_data);
+						 NoneModelModuleInstaller<TModuleController, ModuleView>.Install(sub_container, view_instance, view_initial_data);
+					 })
 					 .WithKernel()
 					 .AsSingle()
 					 .NonLazy();
 		}
 
-		public static void BindComplexModule<TFacade, TModuleController, TModuleModel, TModuleView>(this DiContainer container, TModuleView view_prefab, InitialModuleViewData view_initial_data) where TFacade : IModuleFacade 
+		public static void BindComplexModule<TFacade, TModuleController, TModuleModel>(this DiContainer container, ModuleView view_prefab, InitialModuleViewData view_initial_data, bool exist_view = false) 
+																																							  where TFacade : IModuleFacade 
 			                                                                                                                                                  where TModuleController : ModuleController, TFacade 
-																																							  where TModuleModel : IModuleModel 
-																																							  where TModuleView : ModuleView {
+																																							  where TModuleModel : IModuleModel {
 			container.Bind<TFacade>()
 					 .To<TModuleController>()
 					 .FromSubContainerResolve()
-					 .ByMethod(sub_container => ModuleInstaller<TModuleController, TModuleModel, TModuleView>.Install(sub_container, view_prefab, view_initial_data))
+					 .ByMethod(sub_container => {
+
+						 ModuleView view_instance;
+						 
+						 if (exist_view) {
+							 view_instance = view_prefab as ModuleView;
+						 } else {
+							 view_instance = ViewCustomFactory<ModuleView>.CreateViewFromPrefab(sub_container, view_prefab as ModuleView, view_initial_data);
+						 }
+						 
+						 ModuleInstaller<TModuleController, TModuleModel, ModuleView>.Install(sub_container, view_instance, view_initial_data);
+						 
+					 })
 					 .WithKernel()
 					 .AsSingle()
 					 .NonLazy();
