@@ -1,11 +1,15 @@
-using System;
-using System.Linq;
-using com.rpdev.foundation.module.core.controller;
-using UnityEditor;
-using UnityEngine;
+
 	
 namespace com.rpdev.foundation.module.editor {
-
+	
+#if UNITY_EDITOR
+	
+	using System;
+	using System.Linq;
+	using com.rpdev.foundation.module.core.controller;
+	using UnityEditor;
+	using UnityEngine;
+	
 	public class ModuleGeneratorEditorWindow : EditorWindow {
 
 		[MenuItem("Tools/ModuleGenerator")]
@@ -115,4 +119,5 @@ namespace com.rpdev.foundation.module.editor {
 			
 		}
 	}
+#endif
 }

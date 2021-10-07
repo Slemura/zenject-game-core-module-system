@@ -1,9 +1,12 @@
-using System.IO;
-using System.Text.RegularExpressions;
-using UnityEditor;
-using UnityEngine;
+
 	
 namespace com.rpdev.foundation.module.editor {
+	
+#if UNITY_EDITOR
+	using System.IO;
+	using System.Text.RegularExpressions;
+	using UnityEditor;
+	using UnityEngine;	
 
 	public class ModuleGenerator {
 
@@ -158,4 +161,5 @@ namespace com.rpdev.foundation.module.editor {
 
 		}
 	}
+#endif
 }
