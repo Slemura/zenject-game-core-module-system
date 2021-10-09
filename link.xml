@@ -1,4 +1,6 @@
 <linker>    
+    <assembly fullname="game-core-module-system" preserve="all"/>
+    
     <assembly fullname="com.rpdev.foundation.module.core" preserve="all">
         <assembly fullname="com.rpdev.foundation.module.core.NoneModelModuleInstaller" preserve="all"/>
         <assembly fullname="com.rpdev.foundation.module.core.WithAdditionalDataModuleInstaller" preserve="all"/>
