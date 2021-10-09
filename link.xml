@@ -1,0 +1,4 @@
+<linker>
+    <assembly fullname="com.rpdev.foundation.module" preserve="all"/>
+    <assembly fullname="com.rpdev.foundation.module.core" preserve="all"/>    
+</linker>
