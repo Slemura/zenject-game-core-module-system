@@ -1,4 +1,7 @@
-<linker>
-    <assembly fullname="com.rpdev.foundation.module" preserve="all"/>
-    <assembly fullname="com.rpdev.foundation.module.core" preserve="all"/>    
+<linker>    
+    <assembly fullname="com.rpdev.foundation.module.core" preserve="all">
+        <assembly fullname="com.rpdev.foundation.module.core.NoneModelModuleInstaller" preserve="all"/>
+        <assembly fullname="com.rpdev.foundation.module.core.WithAdditionalDataModuleInstaller" preserve="all"/>
+        <assembly fullname="com.rpdev.foundation.module.core.ModuleInstaller" preserve="all"/>
+    </assembly>
 </linker>
