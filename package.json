@@ -9,13 +9,14 @@
   },
   "keywords": [
     "modules",
-    "buildtools"
+    "zenject",
+    "game-core"
   ],
   "type": "module",
   "author": {
     "name": "rpdev",
     "email": "rpugamedev@gmail.com",
-    "url": ""
+    "url": "https://github.com/Slemura/"
   },
   "repository": {
     "type": "git",

@@ -4,7 +4,6 @@ using com.rpdev.foundation.module.core.controller;
 using com.rpdev.foundation.module.core.model;
 using com.rpdev.foundation.module.core.view;
 using com.rpdev.module.common.commands;
-using UnityEngine;
 using Zenject;
 
 namespace com.rpdev.module.extensions {
@@ -16,7 +15,14 @@ namespace com.rpdev.module.extensions {
 					 .ToMethod<C>((command, signal) => command.Execute())
 					 .From(x => x.AsSingle());
 		}
-		
+
+		public static void BindSignalToCommand<S, C>(this DiContainer container) where C : ICustomCommand<S> {
+			container.BindSignal<S>()
+					 .ToMethod<C>((command, signal) => {
+						 command.Execute(signal);
+					 })
+					 .From(x => x.AsSingle());
+		}
 		
 		public static void BindComplexSignalToCommand<S, C, T>(this DiContainer container, string property_name) where C : ICustomCommand<T> {
 			container.BindSignal<S>()
@@ -38,13 +44,6 @@ namespace com.rpdev.module.extensions {
 						 command.Execute(param_a, param_b);
 					 })
 					 .From(x => x.AsSingle());
-		}
-
-		private static void Install<TParam1, TParam2, TParam3, TDerivedInstaller>(this DiContainer container, TParam1 param1, TParam2 param2, TParam3 param3) where TDerivedInstaller : InstallerBase {
-			container.InstantiateExplicit<TDerivedInstaller>(InjectUtil.CreateArgListExplicit(param1, param2, param3)).InstallBindings();
-		}
-		private static void Install<TParam1, TParam2, TDerivedInstaller>(this DiContainer container, TParam1 param1, TParam2 param2) where TDerivedInstaller : InstallerBase {
-			container.InstantiateExplicit<TDerivedInstaller>(InjectUtil.CreateArgListExplicit(param1, param2)).InstallBindings();
 		}
 
 		public static void BindComplexModuleFromDerivedInstallerWithAdditionalData<TFacade, TModuleController, TModuleInstaller>(this DiContainer container, ModuleView view_prefab, InitialModuleViewData view_initial_data, ModuleAdditionalData module_additional_data, bool exist_view = false)
@@ -136,6 +135,14 @@ namespace com.rpdev.module.extensions {
 					 .WithKernel()
 					 .AsSingle()
 					 .NonLazy();
+		}
+		
+		
+		private static void Install<TParam1, TParam2, TParam3, TDerivedInstaller>(this DiContainer container, TParam1 param1, TParam2 param2, TParam3 param3) where TDerivedInstaller : InstallerBase {
+			container.InstantiateExplicit<TDerivedInstaller>(InjectUtil.CreateArgListExplicit(param1, param2, param3)).InstallBindings();
+		}
+		private static void Install<TParam1, TParam2, TDerivedInstaller>(this DiContainer container, TParam1 param1, TParam2 param2) where TDerivedInstaller : InstallerBase {
+			container.InstantiateExplicit<TDerivedInstaller>(InjectUtil.CreateArgListExplicit(param1, param2)).InstallBindings();
 		}
 	}
 }
